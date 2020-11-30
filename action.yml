@@ -3,7 +3,7 @@ description: 'Calculate image tag'
 outputs:
   latest-tag:
     description: "Docker image tag e.g. 1.0.0"
-    value: ${{ steps.calculate-image-tag.outputs.latest-image-tag }}
+    value: ${{ steps.calculate-image-tag.outputs.latest-tag }}
   latest-minor-tag:
     description: "Docker image tag e.g. 1.0-latest"
     value: ${{ steps.calculate-image-tag.outputs.latest-minor-tag }}
