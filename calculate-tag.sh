@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Fetch tags from repository
+git fetch --prune --unshallow --tags
+
 CURRENT_COMMIT=$(git rev-parse HEAD)
 COMMIT_TAG=$(git tag --points-at "$CURRENT_COMMIT")
 LAST_TAG=$(git tag --merge | grep "${GITHUB_REF##*/}" | sort -rV | head -n 1)
