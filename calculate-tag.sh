@@ -18,7 +18,7 @@ then
   NEW_TAG="$COMMIT_TAG"
 else
   # Iterate tag only if last commit doesn't have a tag
-  NEW_TAG=$(echo $(echo "$LAST_TAG" | cut -d. -f1).$(echo "$LAST_TAG" | cut -d. -f2).$((echo $(echo "$LAST_TAG" | cut -d. -f3) + 1)))
+  NEW_TAG=$(echo $(echo "$LAST_TAG" | cut -d. -f1).$(echo "$LAST_TAG" | cut -d. -f2).$(echo $(($(echo "$LAST_TAG" | cut -d. -f3) + 1)))
 fi
 
 LATEST_TAG=$(echo $(echo "$NEW_TAG" | cut -c2-))
