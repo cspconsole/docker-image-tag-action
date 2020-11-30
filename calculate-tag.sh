@@ -8,7 +8,7 @@ LAST_TAG_ACROSS_BRANCHES=$(git tag --merge | sort -rV | head -n 1)
 
 echo "Dump"
 echo $CURRENT_COMMIT
-echo LAST_TAG_ACROSS_BRANCHES
+echo $LAST_TAG_ACROSS_BRANCHES
 
 TAG_REGEX='^v?[0-9]+\.[0-9]+\.[0-9]+$'
 if ! [[ $LAST_TAG =~ $TAG_REGEX ]];
