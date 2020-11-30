@@ -24,4 +24,4 @@ LATEST_MAJOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1)"-latest")
 
 echo "::set-output name=latest-tag::$(echo $LATEST_TAG)"
 echo "::set-output name=latest-minor-tag::$(echo $LATEST_MINOR_TAG)"
-echo "::set-output name=latest-major-tag::"$(echo $LATEST_MAJOR_TAG)"
+echo "::set-output name=latest-major-tag::$(echo $LATEST_MAJOR_TAG)"
