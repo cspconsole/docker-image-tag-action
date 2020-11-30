@@ -1,15 +1,15 @@
 name: 'Image Tag Definer'
 description: 'Calculate image tag'
 outputs:
-  IMAGE_TAG:
+  latest-tag:
     description: "Docker image tag e.g. 1.0.0"
-    value: ${{ steps.calculate-image-tag.outputs.image-tag }}
-  IMAGE_LATEST_MINOR_TAG:
+    value: ${{ steps.calculate-image-tag.outputs.latest-image-tag }}
+  latest-minor-tag:
     description: "Docker image tag e.g. 1.0-latest"
-    value: ${{ steps.calculate-image-tag.outputs.image-latest-minor-tag }}
-  IMAGE_LATEST_MAJOR_TAG:
+    value: ${{ steps.calculate-image-tag.outputs.latest-minor-tag }}
+  latest-major-tag:
     description: "Docker image tag e.g. 1-latest"
-    value: ${{ steps.calculate-image-tag.outputs.image-latest-major-tag }}
+    value: ${{ steps.calculate-image-tag.outputs.latest-major-tag }}
 runs:
   using: "composite"
   steps:
@@ -34,11 +34,11 @@ runs:
         NEW_TAG = $(echo $(echo "$LAST_TAG" | cut -d. -f1).$(echo "$LAST_TAG" | cut -d. -f2).$(echo $(echo "$LAST_TAG" | cut -d. -f3) + 1))
       fi
 
-      IMAGE_TAG = $(echo $(echo "$NEW_TAG" | cut -c2-))
-      IMAGE_LATEST_MINOR_TAG=$(echo $(echo "$IMAGE_TAG" | cut -d. -f 1-2)"-latest")
-      IMAGE_LATEST_MAJOR_TAG=$(echo $(echo "$IMAGE_TAG" | cut -d. -f 1)"-latest")
+      LATEST_TAG = $(echo $(echo "$NEW_TAG" | cut -c2-))
+      LATEST_MINOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1-2)"-latest")
+      LATEST_MAJOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1)"-latest")
 
-      echo "::set-output name=image-tag::$(echo $IMAGE_TAG)"
-      echo "::set-output name=image-latest-minor-tag::$(echo $IMAGE_LATEST_MINOR_TAG)"
-      echo "::set-output name=image-latest-major-tag::$(echo $IMAGE_LATEST_MAJOR_TAG)"
+      echo "::set-output name=latest-tag::$(echo $LATEST_TAG)"
+      echo "::set-output name=latest-minor-tag::$(echo $LATEST_MINOR_TAG)"
+      echo "::set-output name=latest-major-tag::$(echo $LATEST_MAJOR_TAG)"
       shell: bash
