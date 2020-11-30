@@ -4,10 +4,15 @@ CURRENT_COMMIT=$(git rev-parse HEAD)
 COMMIT_TAG=$(git tag --points-at "$CURRENT_COMMIT")
 LAST_TAG=$(git tag --merge | grep "${GITHUB_REF##*/}" | sort -rV | head -n 1)
 
+echo "Dump"
+echo $CURRENT_COMMIT
+echo $COMMIT_TAG
+echo $LAST_TAG
+
 TAG_REGEX='^v?[0-9]+\.[0-9]+\.[0-9]+$'
 if ! [[ $LAST_TAG =~ $TAG_REGEX ]];
 then
-  echo "error: Not a valid tag $LAST_TAG" >&2; exit 1
+  echo "error: $LAST_TAG is not a valid tag " >&2; exit 1
 fi
 
 if [[ "$COMMIT_TAG" == "$LAST_TAG" ]];
