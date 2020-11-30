@@ -6,8 +6,8 @@ LAST_TAG=$(git tag --merge | grep "${GITHUB_REF##*/}" | sort -rV | head -n 1)
 
 echo "Dump"
 echo $CURRENT_COMMIT
-echo $COMMIT_TAG
-echo $LAST_TAG
+echo ${GITHUB_REF##*/}
+echo ${GITHUB_REF}
 
 TAG_REGEX='^v?[0-9]+\.[0-9]+\.[0-9]+$'
 if ! [[ $LAST_TAG =~ $TAG_REGEX ]];
