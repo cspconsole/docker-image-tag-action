@@ -1,0 +1,37 @@
+name: 'Image Tag Definer'
+description: 'Calculate image tag'
+outputs:
+  IMAGE_TAG:
+    description: "Docker image tag e.g. 1.0.0"
+    value: ${{ steps.calculate-image-tag.outputs.image-tag }}
+  IMAGE_LATEST_MINOR_TAG:
+    description: "Docker image tag e.g. 1.0-latest"
+    value: ${{ steps.calculate-image-tag.outputs.image-latest-minor-tag }}
+  IMAGE_LATEST_MAJOR_TAG:
+    description: "Docker image tag e.g. 1-latest"
+    value: ${{ steps.calculate-image-tag.outputs.image-latest-major-tag }}
+runs:
+  using: "composite"
+  steps:
+    - id: calculate-image-tag
+      run: |
+      CURRENT_COMMIT = $(git rev-parse HEAD)
+      COMMIT_TAG = $(git tag --points-at "$CURRENT_COMMIT")
+      LAST_TAG = $(git tag -l | sort -rV | head -n 1)
+
+      if [ "$COMMIT_TAG" == "$LAST_TAG" ];
+      then
+        NEW_TAG = "$COMMIT_TAG"
+      else
+        # Iterate tag only if last commit doesn't have a tag
+        NEW_TAG = $(echo $(echo "$LAST_TAG" | cut -d. -f1).$(echo "$LAST_TAG" | cut -d. -f2).$(echo $(echo "$LAST_TAG" | cut -d. -f3) + 1))
+      fi
+
+      IMAGE_TAG = $(echo $(echo "$NEW_TAG" | cut -c2-))
+      IMAGE_LATEST_MINOR_TAG=$(echo $(echo "$IMAGE_TAG" | cut -d. -f 1-2)"-latest")
+      IMAGE_LATEST_MAJOR_TAG=$(echo $(echo "$IMAGE_TAG" | cut -d. -f 1)"-latest")
+
+      echo "::set-output name=image-tag::$(echo $IMAGE_TAG)"
+      echo "::set-output name=image-latest-minor-tag::$(echo $IMAGE_LATEST_MINOR_TAG)"
+      echo "::set-output name=image-latest-major-tag::$(echo $IMAGE_LATEST_MAJOR_TAG)"
+      shell: bash
