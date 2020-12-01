@@ -12,8 +12,8 @@ outputs:
     value: ${{ steps.calculate-image-tag.outputs.latest-major-tag }}
 runs:
   using: "composite"
-  post: "git tag add ${{ steps.calculate-image-tag.outputs.latest-tag }};git push origin ${{ steps.calculate-image-tag.outputs.latest-tag }}"
   steps:
     - id: calculate-image-tag
       run: ${{ github.action_path }}/calculate-tag.sh
       shell: bash
+  post: "git tag add ${{ steps.calculate-image-tag.outputs.latest-tag }};git push origin ${{ steps.calculate-image-tag.outputs.latest-tag }}"
