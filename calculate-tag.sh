@@ -25,6 +25,9 @@ LATEST_TAG=$(echo $(echo "$NEW_TAG" | cut -c2-))
 LATEST_MINOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1-2)"-latest")
 LATEST_MAJOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1)"-latest")
 
+git tag -a v$LATEST_TAG -m "Release v$LATEST_TAG"
+git push origin v$LATEST_TAG
+
 echo "::set-output name=latest-tag::$(echo $LATEST_TAG)"
 echo "::set-output name=latest-minor-tag::$(echo $LATEST_MINOR_TAG)"
 echo "::set-output name=latest-major-tag::$(echo $LATEST_MAJOR_TAG)"

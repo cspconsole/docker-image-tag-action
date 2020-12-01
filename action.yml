@@ -16,7 +16,3 @@ runs:
     - id: calculate-image-tag
       run: ${{ github.action_path }}/calculate-tag.sh
       shell: bash
-    - run: git tag add ${{ steps.calculate-image-tag.outputs.latest-tag }}
-      shell: bash
-    - run: git push origin ${{ steps.calculate-image-tag.outputs.latest-tag }}
-      shell: bash
