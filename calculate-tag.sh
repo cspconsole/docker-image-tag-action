@@ -5,7 +5,7 @@ git fetch --prune --unshallow --tags
 
 CURRENT_COMMIT=$(git rev-parse HEAD)
 COMMIT_TAG=$(git tag --points-at "$CURRENT_COMMIT")
-LAST_TAG=$(git tag --merge | grep "${GITHUB_REF##*/}" | sort -rV | head -n 1)
+LAST_TAG=$(git tag --merge "${GITHUB_REF##*/}" | sort -rV | head -n 1)
 
 TAG_REGEX='^v?[0-9]+\.[0-9]+\.[0-9]+$'
 if ! [[ $LAST_TAG =~ $TAG_REGEX ]];
@@ -15,18 +15,20 @@ fi
 
 if [[ "$COMMIT_TAG" == "$LAST_TAG" ]];
 then
-  NEW_TAG="$COMMIT_TAG"
+  NEW_GIT_TAG="$COMMIT_TAG"
 else
   # Iterate tag only if last commit doesn't have a tag
-  NEW_TAG=$(echo $(echo "$LAST_TAG" | cut -d. -f1).$(echo "$LAST_TAG" | cut -d. -f2).$(echo $(($(echo "$LAST_TAG" | cut -d. -f3) + 1))))
+  NEW_GIT_TAG=$(echo $(echo "$LAST_TAG" | cut -d. -f1).$(echo "$LAST_TAG" | cut -d. -f2).$(echo $(($(echo "$LAST_TAG" | cut -d. -f3) + 1))))
+
+  git tag -a $NEW_GIT_TAG -m "Release $NEW_GIT_TAG"
+  git push origin $NEW_GIT_TAG
 fi
 
-LATEST_TAG=$(echo $(echo "$NEW_TAG" | cut -c2-))
+LATEST_TAG=$(echo $(echo "$NEW_GIT_TAG" | cut -c2-))
 LATEST_MINOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1-2)"-latest")
 LATEST_MAJOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1)"-latest")
 
-git tag -a v$LATEST_TAG -m "Release v$LATEST_TAG"
-git push origin v$LATEST_TAG
+
 
 echo "::set-output name=latest-tag::$(echo $LATEST_TAG)"
 echo "::set-output name=latest-minor-tag::$(echo $LATEST_MINOR_TAG)"
