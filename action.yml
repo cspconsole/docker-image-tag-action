@@ -25,10 +25,10 @@ runs:
       run: ${{ github.action_path }}/calculate-tag.sh
       shell: bash
     - name: Push tags
-      if: ${{ steps.calculate-image-tag.outputs.is-new-tag == 'true' }}
       run: ${{ github.action_path }}/git-push.sh
       shell: bash
       env:
         GITHUB_TOKEN: ${{ github.event.inputs.github-token }}
         BRANCH: ${{ github.ref }}
         TAG: ${{ steps.calculate-image-tag.outputs.latest-tag }}
+        IS_NEW_TAG: ${{ steps.calculate-image-tag.outputs.is-new-tag }}
