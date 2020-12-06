@@ -7,15 +7,8 @@ then
 
   git tag -a -s $TAG -m "Release $TAG"
 
-  echo "Pushing to branch $BRANCH"
-  echo "Tag : $TAG"
-  echo "Token $GITHUB_TOKEN"
-
-  if [[ -z "$GITHUB_TOKEN" ]]
-  then
-      echo 'Missing input "github-token"'
-      exit 1
-  fi
+  echo "Branch $BRANCH"
+  echo "Tag: $TAG"
 
   git push origin v$TAG
 else
