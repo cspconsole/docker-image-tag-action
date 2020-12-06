@@ -1,9 +1,5 @@
 name: 'Image Tag Definer'
 description: 'Calculate image tag'
-inputs:
-  branch:
-    description: 'Repository branch. Can be passed in using $\{{ github.ref }}'
-    required: true
 outputs:
   latest-tag:
     description: "Docker image tag e.g. 1.0.0"
@@ -28,6 +24,6 @@ runs:
       run: ${{ github.action_path }}/git-push.sh
       shell: bash
       env:
-        BRANCH: ${{ inputs.branch }}
+        BRANCH: ${{ github.ref }}
         TAG: ${{ steps.calculate-image-tag.outputs.latest-tag }}
         IS_NEW_TAG: ${{ steps.calculate-image-tag.outputs.is-new-tag }}
