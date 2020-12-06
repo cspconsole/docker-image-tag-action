@@ -4,6 +4,9 @@ inputs:
   github-token:
     description: 'Github Access Token. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}'
     required: true
+  branch:
+    description: 'Repository branch. Can be passed in using $\{{ github.ref }}'
+    required: true
 outputs:
   latest-tag:
     description: "Docker image tag e.g. 1.0.0"
@@ -29,6 +32,6 @@ runs:
       shell: bash
       env:
         GITHUB_TOKEN: ${{ github.event.inputs.github-token }}
-        BRANCH: ${{ github.ref }}
+        BRANCH: ${{ github.event.inputs.branch }}
         TAG: ${{ steps.calculate-image-tag.outputs.latest-tag }}
         IS_NEW_TAG: ${{ steps.calculate-image-tag.outputs.is-new-tag }}
