@@ -13,7 +13,7 @@ then
   echo "error: $LAST_TAG is not a valid tag " >&2; exit 1
 fi
 
-IS_NEW_TAG=0
+IS_NEW_TAG="false"
 
 if [[ "$COMMIT_TAG" == "$LAST_TAG" ]];
 then
@@ -22,7 +22,7 @@ else
   # Iterate tag only if last commit doesn't have a tag
   NEW_GIT_TAG=$(echo $(echo "$LAST_TAG" | cut -d. -f1).$(echo "$LAST_TAG" | cut -d. -f2).$(echo $(($(echo "$LAST_TAG" | cut -d. -f3) + 1))))
 
-  IS_NEW_TAG=1
+  IS_NEW_TAG="true"
 fi
 
 LATEST_TAG=$(echo $(echo "$NEW_GIT_TAG" | cut -c2-))

@@ -15,7 +15,7 @@ outputs:
     description: "Docker image tag e.g. 1-latest"
     value: ${{ steps.calculate-image-tag.outputs.latest-major-tag }}
   is-new-tag:
-    description: "1 or 0"
+    description: "true|false"
     value: ${{ steps.calculate-image-tag.outputs.is-new-tag }}
 runs:
   using: "composite"
@@ -25,7 +25,7 @@ runs:
       run: ${{ github.action_path }}/calculate-tag.sh
       shell: bash
     - name: Push tags
-      if: ${{ steps.calculate-image-tag.outputs.is-new-tag == 1 }}
+      if: ${{ steps.calculate-image-tag.outputs.is-new-tag == 'true' }}
       run: ${{ github.action_path }}/git-push.sh
       shell: bash
       env:
