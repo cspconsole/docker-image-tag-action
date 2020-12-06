@@ -5,7 +5,7 @@ then
   git config --local user.email "action@github.com"
   git config --local user.name "GitHub Action"
 
-  git tag -a -s $TAG -m "Release $TAG"
+  git tag -a $TAG -m "Release $TAG"
 
   echo "Branch $BRANCH"
   echo "Tag: $TAG"
