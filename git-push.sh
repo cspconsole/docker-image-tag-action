@@ -5,7 +5,7 @@ then
   git config --local user.email "action@github.com"
   git config --local user.name "GitHub Action"
 
-  git tag -a $TAG -m "Release $TAG"
+  git tag -a -s $TAG -m "Release $TAG"
 
   echo "Pushing to branch $BRANCH"
   echo "Tag : $TAG"
@@ -17,9 +17,7 @@ then
       exit 1
   fi
 
-  REMOTE_REPO="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-
-  git push "$REMOTE_REPO" HEAD:$BRANCH --follow-tags --tags
+  git push origin v$TAG
 else
   echo "Doing nothing. Tag $TAG exists"
 fi
