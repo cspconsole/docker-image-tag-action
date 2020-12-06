@@ -31,7 +31,7 @@ runs:
       run: ${{ github.action_path }}/git-push.sh
       shell: bash
       env:
-        GITHUB_TOKEN: ${{ github.event.inputs.github-token }}
-        BRANCH: ${{ github.event.inputs.branch }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        BRANCH: ${{ inputs.branch }}
         TAG: ${{ steps.calculate-image-tag.outputs.latest-tag }}
         IS_NEW_TAG: ${{ steps.calculate-image-tag.outputs.is-new-tag }}
