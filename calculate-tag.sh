@@ -13,6 +13,8 @@ then
   echo "error: $LAST_TAG is not a valid tag " >&2; exit 1
 fi
 
+IS_NEW_TAG=0
+
 if [[ "$COMMIT_TAG" == "$LAST_TAG" ]];
 then
   NEW_GIT_TAG="$COMMIT_TAG"
@@ -20,16 +22,14 @@ else
   # Iterate tag only if last commit doesn't have a tag
   NEW_GIT_TAG=$(echo $(echo "$LAST_TAG" | cut -d. -f1).$(echo "$LAST_TAG" | cut -d. -f2).$(echo $(($(echo "$LAST_TAG" | cut -d. -f3) + 1))))
 
-  git tag -a $NEW_GIT_TAG -m "Release $NEW_GIT_TAG"
-  git push origin $NEW_GIT_TAG
+  IS_NEW_TAG=1
 fi
 
 LATEST_TAG=$(echo $(echo "$NEW_GIT_TAG" | cut -c2-))
 LATEST_MINOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1-2)"-latest")
 LATEST_MAJOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1)"-latest")
 
-
-
 echo "::set-output name=latest-tag::$(echo $LATEST_TAG)"
 echo "::set-output name=latest-minor-tag::$(echo $LATEST_MINOR_TAG)"
 echo "::set-output name=latest-major-tag::$(echo $LATEST_MAJOR_TAG)"
+echo "::set-output name=is-new-tag::$(echo $IS_NEW_TAG)"

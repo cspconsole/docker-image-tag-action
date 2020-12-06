@@ -1,5 +1,9 @@
 name: 'Image Tag Definer'
 description: 'Calculate image tag'
+inputs:
+  github-token:
+    description: 'Github Access Token. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}'
+    required: true
 outputs:
   latest-tag:
     description: "Docker image tag e.g. 1.0.0"
@@ -13,6 +17,15 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - id: calculate-image-tag
+    - name: Calculate image tag
+      id: calculate-image-tag
       run: ${{ github.action_path }}/calculate-tag.sh
       shell: bash
+    - name: Push tags
+      if: ${{ steps.calculate-image-tag.outputs.is-new-tag }} == 1
+      run: ${{ github.action_path }}/git-push.sh
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.event.inputs.github-token }}
+        BRANCH: ${{ github.ref }}
+        TAG: ${{ steps.calculate-image-tag.outputs.latest-tag }}
