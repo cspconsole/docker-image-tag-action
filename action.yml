@@ -21,8 +21,8 @@ runs:
       id: calculate-image-tag
       run: ${{ github.action_path }}/calculate-tag.sh
       shell: bash
-    - name: Push tags
-      if: ${{ steps.calculate-image-tag.outputs.is-new-tag }} == 1
+    - if: ${{ steps.calculate-image-tag.outputs.is-new-tag }} == 1
+      name: Push tags
       run: ${{ github.action_path }}/git-push.sh
       shell: bash
       env:
