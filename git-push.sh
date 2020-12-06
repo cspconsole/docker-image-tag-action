@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 if [[ "$IS_NEW_TAG" == 'true' ]];
 then
