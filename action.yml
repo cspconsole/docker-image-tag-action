@@ -13,6 +13,9 @@ outputs:
   is-new-tag:
     description: "true|false"
     value: ${{ steps.calculate-image-tag.outputs.is-new-tag }}
+  current-commit:
+    description: "Commit hash"
+    value: ${{ steps.calculate-image-tag.outputs.current-commit }}
 runs:
   using: "composite"
   steps:
