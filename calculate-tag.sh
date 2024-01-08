@@ -29,8 +29,8 @@ LATEST_TAG=$(echo $(echo "$NEW_GIT_TAG" | cut -c2-))
 LATEST_MINOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1-2)"-latest")
 LATEST_MAJOR_TAG=$(echo $(echo "$LATEST_TAG" | cut -d. -f 1)"-latest")
 
-echo "::set-output name=latest-tag::$(echo $LATEST_TAG)"
-echo "::set-output name=latest-minor-tag::$(echo $LATEST_MINOR_TAG)"
-echo "::set-output name=latest-major-tag::$(echo $LATEST_MAJOR_TAG)"
-echo "::set-output name=is-new-tag::$(echo $IS_NEW_TAG)"
-echo "::set-output name=current-commit::$(echo ${CURRENT_COMMIT::6})"
+echo "latest-tag=$(echo $LATEST_TAG) >> $GITHUB_OUTPUT"
+echo "latest-minor-tag=$(echo $LATEST_MINOR_TAG) >> $GITHUB_OUTPUT"
+echo "latest-major-tag=$(echo $LATEST_MAJOR_TAG) >> $GITHUB_OUTPUT"
+echo "is-new-tag=$(echo $IS_NEW_TAG) >> $GITHUB_OUTPUT"
+echo "current-commit=$(echo ${CURRENT_COMMIT::6}) >> $GITHUB_OUTPUT"
