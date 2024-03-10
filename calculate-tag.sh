@@ -14,7 +14,8 @@ then
 fi
 
 IS_NEW_TAG="false"
-
+echo "ct: $COMMIT_TAG"
+echo "lt: $LAST_TAG"
 if [[ "$COMMIT_TAG" == "$LAST_TAG" ]];
 then
   NEW_GIT_TAG="$COMMIT_TAG"
